@@ -5,23 +5,40 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rimraf = require('gulp-rimraf');
 
+var config = {
+    css: {
+        src: ['app/styles/*.scss'],
+        watch: ['app/styles/**/*.scss'],
+        dest: 'dist/css/',
+    },
+    js: {
+        src: ['app/scripts/*.js'],
+        watch: ['app/scripts/*.js', 'app/scripts/**/*.js'],
+        dest: 'dist/js'
+    },
+    dist: {
+        path: 'dist',
+        glob: 'dist/**/*'
+    }
+};
+
 gulp.task('clean', function() {
-    return gulp.src('./dist/*', { read: false }) // much faster
+    return gulp.src(config.dist.glob, { read: false }) // much faster
         .pipe(rimraf());
 });
 
 // JSHint task
 gulp.task('lint', function() {
-    gulp.src('./app/scripts/*.js')
+    return gulp.src(config.js.src)
         .pipe(jshint())
         // You can look into pretty reporters as well, but that's another story
         .pipe(jshint.reporter('default'));
 });
 
 // Browserify task
-gulp.task('browserify', function() {
+gulp.task('js', function() {
     // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
-    gulp.src(['app/scripts/main.js'])
+    return gulp.src(config.js.src)
         .pipe(browserify({
             insertGlobals: true,
             debug: true
@@ -29,14 +46,7 @@ gulp.task('browserify', function() {
         // Bundle to a single file
         .pipe(concat('bundle.js'))
         // Output it to our dist folder
-        .pipe(gulp.dest('dist/js'));
-});
-gulp.task('watch', ['lint'], function() {
-    // Watch our scripts
-    gulp.watch(['app/scripts/*.js', 'app/scripts/**/*.js'], [
-        'lint',
-        'browserify'
-    ]);
+        .pipe(gulp.dest(config.js.dest));
 });
 
 // Views task
@@ -53,9 +63,6 @@ gulp.task('views', function() {
         .pipe(gulp.dest('dist/views/'))
         .pipe(refresh(lrserver)); // Tell the lrserver to refresh
 });
-gulp.watch(['app/index.html', 'app/views/**/*.html'], [
-    'views'
-]);
 
 var embedlr = require('gulp-embedlr'),
     refresh = require('gulp-livereload'),
@@ -86,11 +93,11 @@ gulp.task('dev', function() {
 });
 
 // Styles task
-gulp.task('styles', function() {
+gulp.task('css', function() {
     var sass = require('gulp-sass');
     // Automatically add css attribute prefixes for all browsers
     var autoprefixer = require('gulp-autoprefixer');
-    gulp.src('app/styles/*.scss')
+    return gulp.src(config.css.src)
         // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
         .pipe(sass({
             errLogToConsole: true
@@ -99,7 +106,14 @@ gulp.task('styles', function() {
             browsers: ['last 2 versions'],
             cascade: false
         }))
-        .pipe(gulp.dest('dist/css/'))
+        .pipe(gulp.dest(config.css.dest))
         .pipe(refresh(lrserver));
 });
-gulp.watch(['app/styles/**/*.scss'], ['styles']);
+gulp.task('watch', ['lint'], function() {
+    // Watch our scripts
+    gulp.watch(config.js.watch, ['lint', 'js']);
+    gulp.watch(config.css.watch, ['css']);
+    gulp.watch(['app/index.html', 'app/views/**/*.html'], ['views']);
+});
+
+gulp.task('default', ['watch']);
