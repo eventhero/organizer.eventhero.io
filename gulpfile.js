@@ -68,7 +68,7 @@ server.use(livereload({port: livereloadport}));
 server.use(express.static('./dist'));
 // Because I like HTML5 pushstate .. this redirects everything back to our index.html
 server.all('/*', function(req, res) {
-  res.sendfile('index.html', { root: 'dist' });
+  res.sendFile('index.html', { root: 'dist' });
 });
 // Dev task
 gulp.task('dev', function() {
@@ -79,3 +79,21 @@ gulp.task('dev', function() {
   // Run the watch task, to keep taps on changes
   gulp.run('watch');
 });
+
+var sass = require('gulp-sass');
+// Not necessary, but I like this one, it automatically adds prefixes for all browsers
+var autoprefixer = require('gulp-autoprefixer');
+// Styles task
+gulp.task('styles', function() {
+  gulp.src('app/styles/*.scss')
+    // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
+      .pipe(sass({onError: function(e) { console.log(e); } }))
+    // Optionally add autoprefixer
+      .pipe(autoprefixer("last 2 versions", "> 1%", "ie 8"))
+    // These last two should look familiar now :)
+      .pipe(gulp.dest('dist/css/'))
+      .pipe(refresh(lrserver));
+});
+gulp.watch(['app/styles/**/*.scss'], [
+  'styles'
+]);
