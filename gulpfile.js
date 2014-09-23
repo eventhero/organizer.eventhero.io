@@ -2,8 +2,13 @@ var gulp = require('gulp'),
     gutil = require('gulp-util'),
     jshint = require('gulp-jshint'),
     browserify = require('gulp-browserify'),
-    concat = require('gulp-concat');//,
-//clean = require('gulp-clean');
+    concat = require('gulp-concat'),
+    rimraf = require('gulp-rimraf');
+
+gulp.task('clean', function() {
+    return gulp.src('./dist/*', { read: false }) // much faster
+        .pipe(rimraf());
+});
 
 // JSHint task
 gulp.task('lint', function() {
