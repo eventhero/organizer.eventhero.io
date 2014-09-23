@@ -6,16 +6,24 @@ var gulp = require('gulp'),
     rimraf = require('gulp-rimraf');
 
 var config = {
+    // src: => what to compile, will produce same number of files in dest
+    // watch: => what to watch to recompile, usually includes all files
+    // dest: => dir where to place compiled files
     css: {
-        src: ['app/styles/*.scss'],
-        watch: ['app/styles/**/*.scss'],
+        src: ['src/styles/*.scss'],
+        watch: ['src/styles/**/*.scss'],
         dest: 'dist/css/',
     },
     js: {
-        src: ['app/scripts/*.js'],
-        watch: ['app/scripts/*.js', 'app/scripts/**/*.js'],
+        src: ['src/scripts/*.js'],
+        watch: ['src/scripts/*.js', 'src/scripts/**/*.js'],
         dest: 'dist/js'
     },
+    html: {
+        src: ['src/index.html'],
+        watch: ['src/index.html'],
+        dest: 'dist'
+    }
     dist: {
         path: 'dist',
         glob: 'dist/**/*'
@@ -49,18 +57,11 @@ gulp.task('js', function() {
         .pipe(gulp.dest(config.js.dest));
 });
 
-// Views task
-gulp.task('views', function() {
+gulp.task('html', function() {
     // Get our index.html
-    gulp.src('app/index.html')
+    gulp.src(config.html.src)
         // And put it in the dist folder
-        .pipe(gulp.dest('dist/'))
-        .pipe(refresh(lrserver)); // Tell the lrserver to refresh
-
-    // Any other view files from app/views
-    gulp.src('./app/views/**/*')
-        // Will be put in the dist/views folder
-        .pipe(gulp.dest('dist/views/'))
+        .pipe(gulp.dest(config.html.dest))
         .pipe(refresh(lrserver)); // Tell the lrserver to refresh
 });
 
@@ -77,10 +78,10 @@ var server = express();
 // Add live reload
 server.use(livereload({port: livereloadport}));
 // Use our 'dist' folder as rootfolder
-server.use(express.static('./dist'));
+server.use(express.static(config.dist.path));
 // Because I like HTML5 pushstate .. this redirects everything back to our index.html
 server.all('/*', function(req, res) {
-    res.sendFile('index.html', { root: 'dist' });
+    res.sendFile('index.html', { root: config.dist.path });
 });
 // Dev task
 gulp.task('dev', function() {
@@ -113,7 +114,7 @@ gulp.task('watch', ['lint'], function() {
     // Watch our scripts
     gulp.watch(config.js.watch, ['lint', 'js']);
     gulp.watch(config.css.watch, ['css']);
-    gulp.watch(['app/index.html', 'app/views/**/*.html'], ['views']);
+    gulp.watch(config.html.watch, ['html']);
 });
 
 gulp.task('default', ['watch']);
