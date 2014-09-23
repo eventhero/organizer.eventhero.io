@@ -1,27 +1,30 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
+    cache = require('gulp-cache'),
+    imagemin = require('gulp-imagemin'),
     jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
     browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
     rimraf = require('gulp-rimraf');
 
 var config = {
+    // sources: => includes all files that contribute to compiled outcome. We watch these for changes
     // src: => what to compile, will produce same number of files in dest
-    // watch: => what to watch to recompile, usually includes all files
     // dest: => dir where to place compiled files
     css: {
+        sources: ['src/styles/**/*.scss'],
         src: ['src/styles/*.scss'],
-        watch: ['src/styles/**/*.scss'],
         dest: 'dist/css/',
     },
     js: {
+        sources: ['src/scripts/*.js', 'src/scripts/**/*.js'],
         src: ['src/scripts/*.js'],
-        watch: ['src/scripts/*.js', 'src/scripts/**/*.js'],
         dest: 'dist/js'
     },
     html: {
+        sources: ['src/index.html'],
         src: ['src/index.html'],
-        watch: ['src/index.html'],
         dest: 'dist'
     },
     dist: {
@@ -35,31 +38,28 @@ gulp.task('clean', function() {
         .pipe(rimraf());
 });
 
-// JSHint task
-gulp.task('lint', function() {
-    return gulp.src(config.js.src)
-        .pipe(jshint())
-        // You can look into pretty reporters as well, but that's another story
-        .pipe(jshint.reporter('default'));
+gulp.task('images', function() {
+    return gulp.src('src/images/**/*')
+        .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+        .pipe(gulp.dest('dist/images'));
 });
 
 // Browserify task
 gulp.task('js', function() {
     // Single point of entry (make sure not to src ALL your files, browserify will figure it out for you)
     return gulp.src(config.js.src)
-        .pipe(browserify({
-            insertGlobals: true,
-            debug: true
-        }))
-        // Bundle to a single file
-        .pipe(concat('bundle.js'))
-        // Output it to our dist folder
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        // .pipe(browserify({ insertGlobals: true, debug: true }))
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(config.js.dest))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(uglify())
         .pipe(gulp.dest(config.js.dest));
 });
 
 gulp.task('html', function() {
-    // Get our index.html
-    gulp.src(config.html.src)
+    return gulp.src(config.html.src)
         // And put it in the dist folder
         .pipe(gulp.dest(config.html.dest))
         .pipe(refresh(lrserver)); // Tell the lrserver to refresh
@@ -111,11 +111,11 @@ gulp.task('css', function() {
         .pipe(refresh(lrserver));
 
 });
-gulp.task('watch', ['lint'], function() {
+gulp.task('watch', ['clean', 'js', 'css', 'html'], function() {
     // Watch our scripts
-    gulp.watch(config.js.watch, ['lint', 'js']);
-    gulp.watch(config.css.watch, ['css']);
-    gulp.watch(config.html.watch, ['html']);
+    gulp.watch(config.js.sources, ['js']);
+    gulp.watch(config.css.sources, ['css']);
+    gulp.watch(config.html.sources, ['html']);
 });
 
 gulp.task('default', ['watch']);
