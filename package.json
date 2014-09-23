@@ -19,7 +19,8 @@
     "gulp-util": "~3.0.1",
     "tiny-lr": "~0.1.4",
     "gulp-autoprefixer": "~1.0.1",
-    "gulp-sass": "~0.7.3"
+    "gulp-sass": "~0.7.3",
+    "gulp-debug": "~1.0.1"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
