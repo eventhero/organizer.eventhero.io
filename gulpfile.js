@@ -4,6 +4,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     rimraf = require('gulp-rimraf'),
     livereload = require('gulp-livereload');
+var notify = require('gulp-notify'), // More like grunt notifier
+    debug = require('gulp-debug'); // prints vynil files going through the stream
 
 // images plugins
 var imagemin = require('gulp-imagemin'),
@@ -20,10 +22,9 @@ var sass = require('gulp-sass'),
     rename = require('gulp-rename'),
     minifycss = require('gulp-minify-css');
 
-
 gulp.task('clean', function() {
     return gulp.src('dist/*', { read: false }) // much faster
-        .pipe(rimraf());
+        .pipe(rimraf({ force: true }));
 });
 
 gulp.task('images', function() {
@@ -88,7 +89,11 @@ gulp.task('css', function() {
         .pipe(gulp.dest('dist/css/'));
 });
 
-gulp.task('build', ['clean', 'images', 'css', 'js', 'html'], function(){});
+// clean is a dependency, and will be run before anything else
+gulp.task('build', ['clean'], function() {
+    // These tasks will be executed in parallel
+    gulp.start('images', 'css', 'js', 'html');
+});
 
 gulp.task('watch', function() {
     // Watch our scripts
@@ -100,7 +105,7 @@ gulp.task('watch', function() {
     livereload.listen();
 
     // Watch any files in dist/, reload on change
-//    gulp.watch(['dist/**']).on('change', livereload.changed);
+    //    gulp.watch(['dist/**']).on('change', livereload.changed);
     gulp.watch(['dist/**']).on('change', function(filePath, server) {
         console.log(filePath);
         livereload.changed(filePath, server);
@@ -110,4 +115,15 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['build'], function(){});
+//gulp.task('default', ['build'], function() {
+//});
+
+// To debug either the stream pipe to debug
+//.pipe(debug({verbose: true, title: 'html'}))
+// To handle errors attach error handler to stream
+//    .on('error', onError);
+//function onError(error){
+//    gutil.log(error.message);
+//    gutil.log(error);
+//}
+
