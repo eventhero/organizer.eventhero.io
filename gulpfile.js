@@ -36,7 +36,7 @@ gulp.task('css', function() {
         .pipe(plugins.autoprefixer({ browsers: ['last 2 versions'], cascade: false, map: false }))
         .pipe(gulp.dest('dist/css/'))
         .pipe(plugins.rename({ suffix: '.min' }))
-        .pipe(plugins.minifycss())
+        .pipe(plugins.minifyCss())
         .pipe(gulp.dest('dist/css/'));
 });
 
