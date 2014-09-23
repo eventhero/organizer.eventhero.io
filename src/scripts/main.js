@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 
 //var angular = require('angular'); // That's right! We can just require angular as if we were in node
 
