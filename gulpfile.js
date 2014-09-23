@@ -23,7 +23,7 @@ var config = {
         src: ['src/index.html'],
         watch: ['src/index.html'],
         dest: 'dist'
-    }
+    },
     dist: {
         path: 'dist',
         glob: 'dist/**/*'
@@ -94,21 +94,22 @@ gulp.task('dev', function() {
 });
 
 // Styles task
+var sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'), // Automatically add css attribute prefixes for all browsers
+    rename = require('gulp-rename'),
+    minifycss = require('gulp-minify-css');
+
 gulp.task('css', function() {
-    var sass = require('gulp-sass');
-    // Automatically add css attribute prefixes for all browsers
-    var autoprefixer = require('gulp-autoprefixer');
     return gulp.src(config.css.src)
         // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
-        .pipe(sass({
-            errLogToConsole: true
-        }))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
+        .pipe(sass({ errLogToConsole: true }))
+        .pipe(autoprefixer({ browsers: ['last 2 versions'], cascade: false }))
+        .pipe(gulp.dest(config.css.dest))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(minifycss())
         .pipe(gulp.dest(config.css.dest))
         .pipe(refresh(lrserver));
+
 });
 gulp.task('watch', ['lint'], function() {
     // Watch our scripts
