@@ -95,7 +95,7 @@ gulp.task('build', ['clean'], function() {
     gulp.start('images', 'css', 'js', 'html');
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['build'], function() {
     // Watch our scripts
     gulp.watch('src/scripts/**/*.js', ['js']);
     gulp.watch('src/styles/**/*.scss', ['css']);
@@ -103,21 +103,12 @@ gulp.task('watch', function() {
 
     // Create LiveReload server
     livereload.listen();
-
-    // Watch any files in dist/, reload on change
-    //    gulp.watch(['dist/**']).on('change', livereload.changed);
-    gulp.watch(['dist/**']).on('change', function(filePath, server) {
-        console.log(filePath);
-        livereload.changed(filePath, server);
-    });
-
-    //    .pipe(refresh(lrserver)); // Tell the lrserver to refresh
-
+    gulp.watch(['dist/**']).on('change', livereload.changed);
 });
 
-//gulp.task('default', ['build'], function() {
-//});
+gulp.task('default', ['build']);
 
+// http://www.artandlogic.com/blog/2014/05/error-handling-in-gulp/
 // To debug either the stream pipe to debug
 //.pipe(debug({verbose: true, title: 'html'}))
 // To handle errors attach error handler to stream
