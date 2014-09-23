@@ -1,4 +1,6 @@
+@import "includes/settings.scss";
 body {
-  background-color: none;
+  background-color: $brand-background-color;
   font-size: 16px;
+  border-radius: 5px;
 }
