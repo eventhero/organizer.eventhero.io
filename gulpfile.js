@@ -40,10 +40,19 @@ gulp.task('css', function() {
         .pipe(gulp.dest('dist/css/'));
 });
 
+gulp.task('rev', ['images', 'css', 'js', 'html'], function() {
+    // potentially move prod minifying/uglifying/rev here, and leave css/js tasks just to produce .css/.js files for dev
+    return gulp.src(['dist/**/*.css', 'dist/**/*.js'])
+        .pipe(plugins.rev())
+        .pipe(gulp.dest('dist'))
+        .pipe(plugins.rev.manifest())
+        .pipe(gulp.dest('dist'));
+});
+
 // clean is a dependency, and will be run before anything else
-gulp.task('build', ['clean'], function() {
+gulp.task('build', ['rev'], function() {
     // These tasks will be executed in parallel
-    return gulp.start('images', 'css', 'js', 'html');
+    //return gulp.start('images', 'css', 'js', 'html');
 });
 
 gulp.task('watch', ['build'], function() {
