@@ -26,6 +26,7 @@ gulp.task('js', function() {
         .pipe(plugins.concat('main.js'))
         .pipe(gulp.dest('dist/js'))
         .pipe(plugins.rename({ suffix: '.min' }))
+        .pipe(plugins.ngmin())
         .pipe(plugins.uglify())
         .pipe(gulp.dest('dist/js'));
 });

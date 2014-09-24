@@ -24,6 +24,7 @@
     "gulp-notify": "~1.7.1",
     "gulp-imagemin": "~1.0.1",
     "gulp-rev": "~1.1.0",
+    "gulp-ngmin": "~0.3.0",
     "gulp-debug": "~1.0.1"
   },
   "scripts": {},
