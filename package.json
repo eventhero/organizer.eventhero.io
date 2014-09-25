@@ -25,7 +25,8 @@
     "gulp-imagemin": "~1.0.1",
     "gulp-rev": "~1.1.0",
     "gulp-ngmin": "~0.3.0",
-    "gulp-debug": "~1.0.1"
+    "gulp-debug": "~1.0.1",
+    "gulp-rev-collector": "~0.1.1"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
