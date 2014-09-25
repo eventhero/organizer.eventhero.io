@@ -1,6 +1,7 @@
 // Generic modules
 var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')();
+    plugins = require('gulp-load-plugins')(),
+    mainBowerFiles = require('main-bower-files');
 
 gulp.task('clean', function() {
     return gulp.src(['dev', 'dist'], { read: false }) // Nuke the whole dev and dist folders and its content
@@ -9,7 +10,20 @@ gulp.task('clean', function() {
 
 gulp.task('default', ['clean']);
 
-gulp.task('dev:js', function() {
+gulp.task('bower', function() {
+    var jsFilter = plugins.filter('*.js'),
+        cssFilter = plugins.filter('*.css');
+    return gulp.src(mainBowerFiles())
+        .pipe(jsFilter)
+        .pipe(plugins.concat('vendor.js'))
+        .pipe(gulp.dest('dev/js'))
+        .pipe(jsFilter.restore())
+        .pipe(cssFilter)
+        .pipe(plugins.concat('vendor.css'))
+        .pipe(gulp.dest('dev/css'));
+});
+
+gulp.task('dev:js', ['bower'], function() {
     return gulp.src('src/scripts/**/*.js')
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter('default'))
@@ -17,7 +31,7 @@ gulp.task('dev:js', function() {
         .pipe(gulp.dest('dev/js'))
 });
 
-gulp.task('dev:css', function() {
+gulp.task('dev:css', ['bower'], function() {
     return gulp.src('src/styles/*.scss') // only top level scss files get compiled, other get @included
         .pipe(plugins.sass({ errLogToConsole: true })) // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
         .pipe(plugins.autoprefixer({ browsers: ['last 2 versions'], cascade: false, map: false }))
