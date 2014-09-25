@@ -26,9 +26,8 @@ gulp.task('bower', function() {
 });
 
 gulp.task('dev:js', ['bower'], function() {
-    return gulp.src('src/scripts/**/*.js')
-        .pipe(plugins.jshint('.jshintrc'))
-        .pipe(plugins.jshint.reporter('default'))
+    return gulp.src(['src/app.js', 'src/**/module.js', 'src/scripts/**/*.js'])
+        .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
         .pipe(plugins.concat('scripts.js'))
         .pipe(gulp.dest('dev/js'))
 });
