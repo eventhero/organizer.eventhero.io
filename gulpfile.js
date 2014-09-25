@@ -11,9 +11,11 @@ gulp.task('clean', function() {
 gulp.task('default', ['clean']);
 
 gulp.task('bower', function() {
-    var jsFilter = plugins.filter('*.js'),
+    var bowerFiles = mainBowerFiles(),
+        jsFilter = plugins.filter('*.js'),
         cssFilter = plugins.filter('*.css');
-    return gulp.src(mainBowerFiles())
+    return gulp.src(bowerFiles)
+        .pipe(plugins.print())
         .pipe(jsFilter)
         .pipe(plugins.concat('vendor.js'))
         .pipe(gulp.dest('dev/js'))
@@ -52,7 +54,7 @@ gulp.task('dev:html', function() {
 gulp.task('dev', ['dev:images', 'dev:js', 'dev:css', 'dev:html'], function() {
 });
 
-gulp.task('dev:watch', ['dev'], function() {
+gulp.task('watch', ['dev'], function() {
     gulp.watch('src/images/**/*', ['dev:images']);
     gulp.watch('src/scripts/**/*.js', ['dev:js']);
     gulp.watch('src/styles/**/*.scss', ['dev:css']);
