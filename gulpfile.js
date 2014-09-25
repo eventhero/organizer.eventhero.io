@@ -60,7 +60,7 @@ gulp.task('dist:images', ['dev:images'], function() {
 gulp.task('dist:js', ['dev:js'], function() {
     return gulp.src('dev/js/**/*.js')
         .pipe(plugins.rev())
-        .pipe(plugins.ngmin())
+        .pipe(plugins.ngAnnotate())
         .pipe(plugins.uglify())
         .pipe(gulp.dest('dist/js'))
         .pipe(plugins.rev.manifest())
