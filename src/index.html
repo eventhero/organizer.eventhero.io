@@ -15,11 +15,17 @@
                     <a class="navbar-brand" href="#">My Awesome App</a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li data-match-route="/?(navbar)?"><a href="#/">Home</a></li>
-                    <li data-match-route="/page-one"><a href="#/page-one">Page One</a></li>
-                    <li data-match-route="/page-two.*"><a href="#/page-two/sub-a">Page Two</a></li>
+                    <li data-match-route="/state1"><a ui-sref="state1">State 1</a></li>
+                    <li data-match-route="/state2"><a ui-sref="state2">State 2</a></li>
                 </ul>
             </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div ui-view></div>
+            <a ui-sref="state1">State 1</a>
+            <a ui-sref="state2">State 2</a>
         </div>
     </div>
     <p>
@@ -31,5 +37,6 @@
 </div>
 <script src="js/vendor.js"></script>
 <script src="js/scripts.js"></script>
+<script src="js/templates.js"></script>
 </body>
 </html>

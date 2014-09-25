@@ -26,9 +26,15 @@ gulp.task('bower', function() {
 });
 
 gulp.task('dev:js', ['bower'], function() {
-    return gulp.src(['src/app.js', 'src/**/module.js', 'src/scripts/**/*.js'])
+    return gulp.src(['src/scripts/app.js', 'src/scripts/**/module.js', 'src/scripts/**/*.js'])
         .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
         .pipe(plugins.concat('scripts.js'))
+        .pipe(gulp.dest('dev/js'))
+});
+
+gulp.task('templates', function (){
+    return gulp.src('src/partials/**/*.html')
+        .pipe(plugins.angularTemplatecache('templates.js', {root: 'partials'}))
         .pipe(gulp.dest('dev/js'))
 });
 
@@ -66,7 +72,8 @@ gulp.task('watch', ['dev'], function() {
 gulp.task('dist:images', ['dev:images'], function() {
     return gulp.src('dev/images/**/*')
         .pipe(plugins.rev())
-        .pipe(plugins.cache(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+        //.pipe(plugins.cache(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+        .pipe(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
         .pipe(gulp.dest('dist/images'))
         .pipe(plugins.rev.manifest())
         .pipe(gulp.dest('dist/images'));

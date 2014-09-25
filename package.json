@@ -28,7 +28,8 @@
     "main-bower-files": "~2.0.0",
     "gulp-filter": "~1.0.2",
     "gulp-print": "~1.1.0",
-    "gulp-jslint": "~0.1.7"
+    "gulp-jslint": "~0.1.7",
+    "gulp-angular-templatecache": "~1.4.1"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
