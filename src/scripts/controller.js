@@ -1,3 +1,3 @@
-angular.module('myApp').controller('HelloCtrl', function ($scope) {
+angular.module('OrganizerApp').controller('HelloCtrl', function ($scope) {
     $scope.test = 'Test variable';
 });
