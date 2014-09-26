@@ -10,12 +10,11 @@ gulp.task('clean', function() {
 
 gulp.task('default', ['clean']);
 
-gulp.task('vendor', function() {
+gulp.task('dev:vendor', function() {
     var bowerFiles = mainBowerFiles(),
         jsFilter = plugins.filter('*.js'),
         cssFilter = plugins.filter('*.css');
     return gulp.src(bowerFiles)
-        .pipe(plugins.print())
         .pipe(jsFilter)
         .pipe(plugins.concat('vendor.js'))
         .pipe(gulp.dest('dev/js'))
@@ -28,6 +27,7 @@ gulp.task('vendor', function() {
 gulp.task('dev:js', function() {
     return gulp.src(['src/scripts/app.js', 'src/scripts/**/module.js', 'src/scripts/**/*.js'])
         .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
+        .pipe(plugins.ngAnnotate())
         .pipe(plugins.concat('scripts.js'))
         .pipe(gulp.dest('dev/js'))
 });
@@ -56,7 +56,7 @@ gulp.task('dev:index', function() {
         .pipe(gulp.dest('dev'));
 });
 
-gulp.task('dev', ['vendor', 'dev:images', 'dev:js', 'dev:css', 'dev:templates', 'dev:index'], function() {
+gulp.task('dev', ['dev:vendor', 'dev:images', 'dev:js', 'dev:css', 'dev:templates', 'dev:index'], function() {
 });
 
 gulp.task('watch', ['dev'], function() {
@@ -80,17 +80,16 @@ gulp.task('dist:images', ['dev:images'], function() {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('dist:js', ['dev:js'], function() {
-    return gulp.src('dev/js/**/*.js')
+gulp.task('dist:js', ['dev:vendor', 'dev:js', 'dev:templates'], function() {
+    return gulp.src('dev/js/*.js')
         .pipe(plugins.rev())
-        .pipe(plugins.ngAnnotate())
         .pipe(plugins.uglify())
         .pipe(gulp.dest('dist/js'))
         .pipe(plugins.rev.manifest())
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('dist:css', ['dev:css'], function() {
+gulp.task('dist:css', ['dev:vendor', 'dev:css'], function() {
     return gulp.src('dev/css/*.css')
         .pipe(plugins.rev())
         .pipe(plugins.minifyCss())
@@ -99,13 +98,13 @@ gulp.task('dist:css', ['dev:css'], function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('dist:html', ['dist:images', 'dist:js', 'dist:css', 'dev:html'], function() {
+gulp.task('dist:index', ['dev:index', 'dist:images', 'dist:js', 'dist:css'], function() {
     return gulp.src(['dist/**/rev-manifest.json', 'dev/**/*.html'])
         .pipe(plugins.revCollector())
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('dist', ['dist:html'], function() {
+gulp.task('dist', ['dist:index'], function() {
 });
 
 // http://www.artandlogic.com/blog/2014/05/error-handling-in-gulp/
