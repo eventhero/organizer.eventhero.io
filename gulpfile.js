@@ -10,7 +10,7 @@ gulp.task('clean', function() {
 
 gulp.task('default', ['clean']);
 
-gulp.task('bower', function() {
+gulp.task('vendor', function() {
     var bowerFiles = mainBowerFiles(),
         jsFilter = plugins.filter('*.js'),
         cssFilter = plugins.filter('*.css');
@@ -25,20 +25,20 @@ gulp.task('bower', function() {
         .pipe(gulp.dest('dev/css'));
 });
 
-gulp.task('dev:js', ['bower'], function() {
+gulp.task('dev:js', function() {
     return gulp.src(['src/scripts/app.js', 'src/scripts/**/module.js', 'src/scripts/**/*.js'])
         .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
         .pipe(plugins.concat('scripts.js'))
         .pipe(gulp.dest('dev/js'))
 });
 
-gulp.task('templates', function (){
+gulp.task('dev:templates', function () {
     return gulp.src('src/partials/**/*.html')
-        .pipe(plugins.angularTemplatecache('templates.js', {root: 'partials'}))
+        .pipe(plugins.angularTemplatecache('templates.js', { standalone: true, root: 'partials' }))
         .pipe(gulp.dest('dev/js'))
 });
 
-gulp.task('dev:css', ['bower'], function() {
+gulp.task('dev:css', function() {
     return gulp.src('src/styles/*.scss') // only top level scss files get compiled, other get @included
         .pipe(plugins.sass({ errLogToConsole: true })) // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
         .pipe(plugins.autoprefixer({ browsers: ['last 2 versions'], cascade: false, map: false }))
@@ -46,24 +46,25 @@ gulp.task('dev:css', ['bower'], function() {
 });
 
 gulp.task('dev:images', function() {
-    return gulp.src('src/images/**/*', {})
+    return gulp.src('src/images/**/*')
         .pipe(gulp.dest('dev/images'));
 });
 
-gulp.task('dev:html', function() {
+gulp.task('dev:index', function() {
     // concat templates here
     return gulp.src('src/index.html')
         .pipe(gulp.dest('dev'));
 });
 
-gulp.task('dev', ['dev:images', 'dev:js', 'dev:css', 'dev:html'], function() {
+gulp.task('dev', ['vendor', 'dev:images', 'dev:js', 'dev:css', 'dev:templates', 'dev:index'], function() {
 });
 
 gulp.task('watch', ['dev'], function() {
     gulp.watch('src/images/**/*', ['dev:images']);
     gulp.watch('src/scripts/**/*.js', ['dev:js']);
     gulp.watch('src/styles/**/*.scss', ['dev:css']);
-    gulp.watch('src/index.html', ['dev:html']);
+    gulp.watch('src/partials/**/*.html', ['dev:templates']);
+    gulp.watch('src/index.html', ['dev:index']);
 
     plugins.livereload.listen();
     gulp.watch(['dev/**']).on('change', plugins.livereload.changed);
