@@ -59,7 +59,14 @@ gulp.task('dev:index', function() {
 gulp.task('dev', ['dev:vendor', 'dev:images', 'dev:js', 'dev:css', 'dev:templates', 'dev:index'], function() {
 });
 
-gulp.task('watch', ['dev'], function() {
+gulp.task('serve', ['dev'], function () {
+    var express = require('express');
+    var app = express();
+    app.use(express.static('dev'));
+    app.listen(4000);
+});
+
+gulp.task('watch', ['serve'], function() {
     gulp.watch('src/images/**/*', ['dev:images']);
     gulp.watch('src/scripts/**/*.js', ['dev:js']);
     gulp.watch('src/styles/**/*.scss', ['dev:css']);
@@ -67,7 +74,7 @@ gulp.task('watch', ['dev'], function() {
     gulp.watch('src/index.html', ['dev:index']);
 
     plugins.livereload.listen();
-    gulp.watch(['dev/**']).on('change', plugins.livereload.changed);
+    gulp.watch(['dev/**/*']).on('change', plugins.livereload.changed);
 });
 
 gulp.task('dist:images', ['dev:images'], function() {
