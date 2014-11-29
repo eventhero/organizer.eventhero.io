@@ -15,8 +15,8 @@ var config = {
         src: 'src/client/**/*.js'
     },
     css: {
-        main: 'src/client/app.scss',
-        src: 'src/client/*.scss',
+        main: 'src/client/app.less',
+        src: 'src/client/*.less',
         includePaths: ['node_modules/bootstrap/less']
     },
     html: {
@@ -40,9 +40,8 @@ gulp.task('dev:js', function() {
 
 gulp.task('dev:css', function() {
     return gulp.src(config.css.main) // only top level scss files get compiled, other get @included
-        .pipe(plugins.sass({
-            errLogToConsole: true,
-            includePaths: config.css.includePaths
+        .pipe(plugins.less({
+            paths: config.css.includePaths
         })) // The onerror handler prevents Gulp from crashing when you make a mistake in your SASS
         .pipe(plugins.autoprefixer({ browsers: ['last 2 versions'], cascade: false, map: false }))
         .pipe(gulp.dest('dev/css'));
