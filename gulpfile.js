@@ -8,18 +8,18 @@ var gulp = require('gulp'),
 // Glob pattern rules here: https://github.com/isaacs/node-glob
 var config = {
     images: {
-        src: 'src/**/*.png'
+        src: 'src/client/**/*.png'
     },
     js: {
-        main: './src/scripts/app.jsx',
-        src: 'src/**/*.js?'
+        main: './src/client/app.jsx',
+        src: 'src/client/**/*.js?'
     },
     css: {
-        main: 'src/styles/*.scss',
-        src: 'src/styles/*.scss'
+        main: 'src/client/app.scss',
+        src: 'src/client/*.scss'
     },
     html: {
-        src: 'src/index.html'
+        src: 'src/client/index.html'
     }
 };
 
