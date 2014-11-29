@@ -11,8 +11,8 @@ var config = {
         src: 'src/client/**/*.png'
     },
     js: {
-        main: './src/client/app.jsx',
-        src: 'src/client/**/*.js?'
+        main: './src/client/app.js',
+        src: 'src/client/**/*.js'
     },
     css: {
         main: 'src/client/app.scss',
