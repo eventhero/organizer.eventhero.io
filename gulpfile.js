@@ -1,6 +1,9 @@
 // Generic modules
 var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')();
+    plugins = require('gulp-load-plugins')(),
+    browserify = require('browserify'),
+    reactify = require('reactify'),
+    source = require('vinyl-source-stream');
 
 gulp.task('clean', function() {
     return gulp.src(['dev', 'dist'], { read: false }) // Nuke the whole dev and dist folders and its content
@@ -10,23 +13,28 @@ gulp.task('clean', function() {
 gulp.task('default', ['clean']);
 
 gulp.task('dev:vendor', function() {
-    var jsFilter = plugins.filter('*.js'),
-        cssFilter = plugins.filter('*.css');
-    return gulp.src(bowerFiles)
-        .pipe(jsFilter)
-        .pipe(plugins.concat('vendor.js'))
-        .pipe(gulp.dest('dev/js'))
-        .pipe(jsFilter.restore())
-        .pipe(cssFilter)
-        .pipe(plugins.concat('vendor.css'))
-        .pipe(gulp.dest('dev/css'));
+    //var jsFilter = plugins.filter('*.js'),
+    //    cssFilter = plugins.filter('*.css');
+    //return gulp.src(bowerFiles)
+    //    .pipe(jsFilter)
+    //    .pipe(plugins.concat('vendor.js'))
+    //    .pipe(gulp.dest('dev/js'))
+    //    .pipe(jsFilter.restore())
+    //    .pipe(cssFilter)
+    //    .pipe(plugins.concat('vendor.css'))
+    //    .pipe(gulp.dest('dev/css'));
 });
 
 gulp.task('dev:js', function() {
-    return gulp.src(['src/scripts/app.js', 'src/scripts/**/module.js', 'src/scripts/**/*.js'])
-        .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
-        .pipe(plugins.concat('scripts.js'))
-        .pipe(gulp.dest('dev/js'))
+    return browserify('./src/scripts/app.jsx')
+        .transform(reactify)
+        .bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('dev/js'));
+    //return gulp.src(['src/scripts/app.jsx', 'src/scripts/**/module.js', 'src/scripts/**/*.js'])
+    //    .pipe(plugins.jslint({ sloppy: true, predef: ['angular'] }))
+    //    .pipe(plugins.concat('scripts.js'))
+    //    .pipe(gulp.dest('dev/js'))
 });
 
 gulp.task('dev:templates', function () {
