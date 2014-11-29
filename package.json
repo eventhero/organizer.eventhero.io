@@ -24,12 +24,9 @@
     "gulp-rev": "~1.1.0",
     "gulp-debug": "~1.0.1",
     "gulp-rev-collector": "~0.1.1",
-    "gulp-ng-annotate": "~0.3.3",
-    "main-bower-files": "~2.0.0",
     "gulp-filter": "~1.0.2",
     "gulp-print": "~1.1.0",
-    "gulp-jslint": "~0.1.7",
-    "gulp-angular-templatecache": "~1.4.1"
+    "gulp-jslint": "~0.1.7"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
