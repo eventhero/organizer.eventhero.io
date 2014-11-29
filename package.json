@@ -32,7 +32,8 @@
     "jquery": "~2.1.1",
     "bootstrap": "~3.3.1",
     "react-bootstrap": "~0.13.0",
-    "gulp-less": "~1.3.6"
+    "gulp-less": "~1.3.6",
+    "gulp-sourcemaps": "~1.2.8"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
