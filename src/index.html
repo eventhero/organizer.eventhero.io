@@ -1,18 +1,19 @@
 <!doctype html>
-<html lang="en" ng-app="OrganizerApp">
+<html lang="en">
 <head>
     <title>My Awesome App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/vendor.css"/>
     <link rel="stylesheet" href="css/app.css"/>
 </head>
-<body ng-controller='HelloCtrl'>
+<body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <nav class="navbar navbar-default" role="navigation" bs-navbar>
+            <nav class="navbar navbar-default" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">My Awesome App</a>
+                    <a class="navbar-brand" href="#">
+                        <img src="powered_by_brickwork.png"/>
+                    </a>
                 </div>
                 <ul class="nav navbar-nav">
                     <li data-match-route="/state1"><a ui-sref="state1">State 1</a></li>
@@ -23,20 +24,10 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div ui-view></div>
-            <a ui-sref="state1">State 1</a>
-            <a ui-sref="state2">State 2</a>
+            <div id="hello"></div>
         </div>
     </div>
-    <p>
-        <img src="images/powered_by_brickwork.png"/>
-    </p>
-
-    <p>{{test}}</p>
-
 </div>
-<script src="js/vendor.js"></script>
-<script src="js/templates.js"></script>
-<script src="js/scripts.js"></script>
+<script src="js/bundle.js"></script>
 </body>
 </html>
