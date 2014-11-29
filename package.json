@@ -29,7 +29,8 @@
     "gulp-jslint": "~0.1.7",
     "react": "~0.12.1",
     "reactify": "~0.17.1",
-    "vinyl-source-stream": "~1.0.0"
+    "vinyl-source-stream": "~1.0.0",
+    "jquery": "~2.1.1"
   },
   "scripts": {},
   "author": "Kliment Mamykin",
