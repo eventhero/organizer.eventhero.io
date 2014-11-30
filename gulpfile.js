@@ -85,7 +85,6 @@ gulp.task('default', ['watch']);
 gulp.task('dist:images', ['dev:images'], function() {
     return gulp.src('dev/images/**/*')
         .pipe(plugins.rev())
-        //.pipe(plugins.cache(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
         .pipe(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
         .pipe(gulp.dest('dist/images'))
         .pipe(plugins.rev.manifest())

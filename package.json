@@ -33,7 +33,8 @@
     "bootstrap": "~3.3.1",
     "react-bootstrap": "~0.13.0",
     "gulp-less": "~1.3.6",
-    "gulp-sourcemaps": "~1.2.8"
+    "gulp-sourcemaps": "~1.2.8",
+    "react-router": "~0.11.4"
   },
   "scripts": {},
   "author": "Kliment Mamykin",

@@ -8,7 +8,7 @@ var MenuItem = require('react-bootstrap').MenuItem;
 module.exports = React.createClass({
     render: function() {
         return (
-            <Navbar className="special">
+            <Navbar className="special" fluid="true">
                 <Nav>
                     <NavItem eventKey={1} href="#">Link</NavItem>
                     <NavItem eventKey={2} href="#">Link</NavItem>

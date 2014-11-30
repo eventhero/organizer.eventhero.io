@@ -1,22 +1,82 @@
 var React = require('react');
 var Header = require('./components/header');
 
+var Router = require('react-router');
+var Route = Router.Route;
+var NotFoundRoute = Router.NotFoundRoute;
+var DefaultRoute = Router.DefaultRoute;
+var Link = Router.Link;
+var RouteHandler = Router.RouteHandler;
+
 var HelloMessage = React.createClass({
     render: function() {
         return <div>Hello dear {this.props.name}</div>;
     }
 });
 
-var App = React.createClass({
+var Dashboard = React.createClass({
     render: function() {
-        return <div class="container-fluid">
-            <Header />
-            <div class="row">
-                <div class="col-xs-12">
-                    <HelloMessage name="Kliment"/>
-                </div>
-            </div>
-        </div>;
+        return <div>This is dashboard</div>;
     }
 });
-React.render(<App />, document.getElementById('app'));
+
+var Inbox = React.createClass({
+    render: function() {
+        return <div>This is inbox</div>;
+    }
+});
+
+var Calendar = React.createClass({
+    render: function() {
+        return <div>This is calendar</div>;
+    }
+});
+
+var App = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <Header />
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <ul>
+                                <li>
+                                    <Link to="app">Dashboard</Link>
+                                </li>
+                                <li>
+                                    <Link to="inbox">Inbox</Link>
+                                </li>
+                                <li>
+                                    <Link to="calendar">Calendar</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <HelloMessage name="Kliment"/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <RouteHandler />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+});
+
+var routes = (
+    <Route name="app" path="/" handler={App}>
+        <Route name="inbox" path="/inbox" handler={Inbox}/>
+        <Route name="calendar" path="/calendar" handler={Calendar}/>
+        <DefaultRoute handler={Dashboard}/>
+    </Route>
+);
+
+Router.run(routes, function(Handler) {
+    React.render(<Handler />, document.body);
+});
