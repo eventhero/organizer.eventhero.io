@@ -40,21 +40,6 @@ var App = React.createClass({
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-xs-12">
-                            <ul>
-                                <li>
-                                    <Link to="app">Dashboard</Link>
-                                </li>
-                                <li>
-                                    <Link to="inbox">Inbox</Link>
-                                </li>
-                                <li>
-                                    <Link to="calendar">Calendar</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-12">
                             <HelloMessage name="Kliment"/>
                         </div>
                     </div>
