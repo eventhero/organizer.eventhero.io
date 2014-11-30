@@ -2,7 +2,6 @@
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     browserify = require('browserify'),
-    reactify = require('reactify'),
     source = require('vinyl-source-stream');
 
 // Glob pattern rules here: https://github.com/isaacs/node-glob
@@ -31,10 +30,14 @@ gulp.task('clean', function() {
 });
 
 gulp.task('dev:js', function() {
-    return browserify(config.js.main)
-        .transform(reactify)
+    return browserify({
+        entries: [config.js.main],
+        noParse: ['jquery', 'bootstrap'],
+        debug: !gulp.env.production
+    })
+        .transform('reactify')
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('app.js'))
         .pipe(gulp.dest('dev/js'));
 });
 

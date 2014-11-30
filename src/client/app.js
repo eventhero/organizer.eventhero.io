@@ -1,11 +1,12 @@
+var $ = jQuery = require('jquery');
+var bootstrap = require('bootstrap');
+
 var React = require('react');
 var Header = require('./components/header');
 
 var Router = require('react-router');
 var Route = Router.Route;
-var NotFoundRoute = Router.NotFoundRoute;
 var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 
 var HelloMessage = React.createClass({

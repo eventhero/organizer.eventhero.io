@@ -12,7 +12,7 @@ module.exports = React.createClass({
     mixins: [Router.State],
     render: function() {
         return (
-            <nav className="navbar navbar-default" role="navigation">
+            <nav className="navbar navbar-inverse" role="navigation">
                 <div className="container-fluid">
                     {/*!-- Brand and toggle get grouped for better mobile display --*/}
                     <div className="navbar-header">
