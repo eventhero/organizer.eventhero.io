@@ -16,7 +16,7 @@ var config = {
     css: {
         main: 'src/client/app.less',
         src: 'src/client/{app,**/*}.less',
-        includePaths: ['node_modules/bootstrap/less']
+        includePaths: ['bower_components/bootstrap/less']
     },
     html: {
         src: 'src/client/index.html'
@@ -32,10 +32,8 @@ gulp.task('clean', function() {
 gulp.task('dev:js', function() {
     return browserify({
         entries: [config.js.main],
-        noParse: ['jquery', 'bootstrap'],
         debug: !gulp.env.production
     })
-        .transform('reactify')
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('dev/js'));

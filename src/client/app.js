@@ -1,5 +1,4 @@
-var $ = jQuery = require('jquery');
-var bootstrap = require('bootstrap');
+require('bootstrap'); // force browserify to bundle it, including jquery (through browserify-shim)
 
 var React = require('react');
 var Header = require('./components/header');
