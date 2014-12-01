@@ -4,6 +4,10 @@
   "description": "Event Organizer App from EventHero.io",
   "author": "Kliment Mamykin",
   "license": "Copyright EventHero.io",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/eventhero/organizer.eventhero.io.git"
+  },
   "scripts": {},
   "main": "index.js",
   "dependencies": {
