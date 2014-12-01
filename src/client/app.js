@@ -1,5 +1,6 @@
 var $ = require('libs').$;
 
+
 var React = require('libs').React;
 var Header = require('./components/header');
 
@@ -16,7 +17,7 @@ var HelloMessage = React.createClass({
 
 var Dashboard = React.createClass({
     render: function() {
-        return <div>This is dashboard 44444</div>;
+        return <div>This is dashboard</div>;
     }
 });
 
