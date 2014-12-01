@@ -1,8 +1,13 @@
+// TODO: add deploy task https://gist.github.com/mlms13/4ed66cb920caf734ab1c
+
 // Generic modules
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     browserify = require('browserify'),
+    watchify = require('watchify'),
     source = require('vinyl-source-stream');
+
+process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1
 
 // Glob pattern rules here: https://github.com/isaacs/node-glob
 var config = {
@@ -10,13 +15,14 @@ var config = {
         src: 'src/client/**/*.png'
     },
     js: {
+        libs: './src/client/libs.js',
         main: './src/client/app.js',
         src: 'src/client/**/*.js'
     },
     css: {
         main: 'src/client/app.less',
         src: 'src/client/{app,**/*}.less',
-        includePaths: ['bower_components/bootstrap/less']
+        includePaths: ['node_modules/bootstrap/less']
     },
     html: {
         src: 'src/client/index.html'
@@ -29,17 +35,12 @@ gulp.task('clean', function() {
         .pipe(plugins.rimraf({ force: true }));
 });
 
-gulp.task('dev:js', function() {
-    return browserify({
-        entries: [config.js.main],
-        debug: !gulp.env.production
-    })
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(gulp.dest('dev/js'));
+gulp.task('images', function() {
+    return gulp.src(config.images.src)
+        .pipe(gulp.dest('dev/images'));
 });
 
-gulp.task('dev:css', function() {
+gulp.task('css', function() {
     return gulp.src(config.css.src) // only top level scss files get compiled, other get @included
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('app.less'))
@@ -51,17 +52,41 @@ gulp.task('dev:css', function() {
         .pipe(gulp.dest('dev/css'));
 });
 
-gulp.task('dev:images', function() {
-    return gulp.src(config.images.src)
-        .pipe(gulp.dest('dev/images'));
+gulp.task('js:libs', function() {
+    var opts = {
+        noParse: ['jquery', 'bootstrap'],
+        //standalone: 'libs',
+        debug: true
+    };
+    return browserify(opts)
+        .add(config.js.libs)
+        .require(config.js.libs, { expose: 'libs' })
+        .bundle()
+        .pipe(source('libs.js'))
+        .pipe(gulp.dest('dev/js'));
 });
 
-gulp.task('dev:html', function() {
+gulp.task('js', ['js:libs'], function() {
+    return browserify({
+        cache: {},
+        packageCache: {},
+        fullPaths: true,
+        debug: true
+    })
+        .add(config.js.main)
+        .external('libs')
+        .transform("reactify")
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('dev/js'));
+});
+
+gulp.task('html', function() {
     return gulp.src(config.html.src)
         .pipe(gulp.dest('dev'));
 });
 
-gulp.task('dev', ['dev:images', 'dev:css', 'dev:js', 'dev:html'], function() {
+gulp.task('dev', ['images', 'css', 'js', 'html'], function() {
 });
 
 gulp.task('serve', ['dev'], function() {
@@ -71,19 +96,35 @@ gulp.task('serve', ['dev'], function() {
     app.listen(4000);
 });
 
-gulp.task('watch', ['serve'], function() {
-    gulp.watch(config.images.src, ['dev:images']);
-    gulp.watch(config.js.src, ['dev:js']);
-    gulp.watch(config.css.src, ['dev:css']);
-    gulp.watch(config.html.src, ['dev:html']);
-
+gulp.task('livereload', function() {
     plugins.livereload.listen();
     gulp.watch(['dev/**/*']).on('change', plugins.livereload.changed);
 });
 
+gulp.task('watch', ['serve', 'livereload'], function() {
+    gulp.watch(config.images.src, ['images']);
+    gulp.watch(config.css.src, ['css']);
+    gulp.watch(config.html.src, ['html']);
+    var bundler = watchify(browserify(config.js.main, {
+        cache: {},
+        packageCache: {},
+        fullPaths: true,
+        debug: true
+    }));
+
+    function rebundle() {
+        console.log("rebundling...");
+        return bundler.bundle()
+            .pipe(source('app.js'))
+            .pipe(gulp.dest('dev/js'));
+    }
+
+    bundler.on('update', rebundle);
+});
+
 gulp.task('default', ['watch']);
 
-gulp.task('dist:images', ['dev:images'], function() {
+gulp.task('dist:images', ['images'], function() {
     return gulp.src('dev/images/**/*')
         .pipe(plugins.rev())
         .pipe(plugins.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
@@ -92,7 +133,7 @@ gulp.task('dist:images', ['dev:images'], function() {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('dist:js', ['dev:js'], function() {
+gulp.task('dist:js', ['js'], function() {
     return gulp.src('dev/js/*.js')
         .pipe(plugins.rev())
         .pipe(plugins.uglify())
@@ -101,7 +142,7 @@ gulp.task('dist:js', ['dev:js'], function() {
         .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('dist:css', ['dev:css'], function() {
+gulp.task('dist:css', ['css'], function() {
     return gulp.src('dev/css/*.css')
         .pipe(plugins.rev())
         .pipe(plugins.minifyCss())
@@ -110,7 +151,7 @@ gulp.task('dist:css', ['dev:css'], function() {
         .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('dist', ['dev:html', 'dist:images', 'dist:css', 'dist:js'], function() {
+gulp.task('dist', ['html', 'dist:images', 'dist:css', 'dist:js'], function() {
     return gulp.src(['dist/**/rev-manifest.json', 'dev/**/*.html'])
         .pipe(plugins.revCollector())
         .pipe(gulp.dest('dist'));

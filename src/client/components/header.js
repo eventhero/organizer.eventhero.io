@@ -1,11 +1,12 @@
-var React = require('react');
-var Navbar = require('react-bootstrap').Navbar;
-var Nav = require('react-bootstrap').Nav;
-var NavItem = require('react-bootstrap').NavItem;
-var DropdownButton = require('react-bootstrap').DropdownButton;
-var MenuItem = require('react-bootstrap').MenuItem;
+var React = require('libs').React;
+var Bootstrap = require('libs').Bootstrap;
+var Navbar = Bootstrap.Navbar;
+var Nav = Bootstrap.Nav;
+var NavItem = Bootstrap.NavItem;
+var DropdownButton = Bootstrap.DropdownButton;
+var MenuItem = Bootstrap.MenuItem;
 
-var Router = require('react-router');
+var Router = require('libs').Router;
 var Link = Router.Link;
 
 module.exports = React.createClass({

@@ -1,9 +1,9 @@
-require('bootstrap'); // force browserify to bundle it, including jquery (through browserify-shim)
+var $ = require('libs').$;
 
-var React = require('react');
+var React = require('libs').React;
 var Header = require('./components/header');
 
-var Router = require('react-router');
+var Router = require('libs').Router;
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 var RouteHandler = Router.RouteHandler;
@@ -16,7 +16,7 @@ var HelloMessage = React.createClass({
 
 var Dashboard = React.createClass({
     render: function() {
-        return <div>This is dashboard</div>;
+        return <div>This is dashboard 44444</div>;
     }
 });
 
