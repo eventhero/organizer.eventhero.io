@@ -1,11 +1,11 @@
-// TODO: add deploy task https://gist.github.com/mlms13/4ed66cb920caf734ab1c
-
 // Generic modules
 var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     browserify = require('browserify'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream');
+
+var gulper = require('asset-gulper')();
 
 process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1
 

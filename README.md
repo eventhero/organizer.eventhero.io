@@ -1,7 +1,7 @@
 # TODO
 
 * Extract build logic into a local repo to be shared with other projects
-    [https://www.npmjs.org/doc/files/package.json.html#local-paths]
+    [https://docs.npmjs.com/cli/link]
     [http://viget.com/extend/gulp-browserify-starter-faq]
 * "Steal" [https://github.com/greypants/gulp-starter] ideas
 * Setting isProduction var
@@ -10,3 +10,5 @@
     [https://github.com/substack/watchify]
     [https://github.com/gulpjs/gulp/blob/master/docs/recipes/fast-browserify-builds-with-watchify.md]
 * ES6 + Traceur
+* Add deploy task https://gist.github.com/mlms13/4ed66cb920caf734ab1c
+
