@@ -1,10 +1,10 @@
-var $ = require('libs').$;
+var $ = require('./libs').$;
 
 
-var React = require('libs').React;
+var React = require('./libs').React;
 var Header = require('./components/header');
 
-var Router = require('libs').Router;
+var Router = require('./libs').Router;
 var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 var RouteHandler = Router.RouteHandler;

@@ -5,9 +5,19 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream');
 
-var gulper = require('asset-gulper')();
+var gulper = require('asset-gulper')({
+    app: './src/client',
+    main: 'app.jsx',
+    currentDir: __dirname,
+    outputDir: 'dev',
+    devServer: {
+        host: 'localhost',
+        port: 8080
+    }
+});
+gulper.defineTasks(gulp, ['clean', 'watch', 'compile']);
 
-process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1
+process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1;
 
 // Glob pattern rules here: https://github.com/isaacs/node-glob
 var config = {
@@ -28,12 +38,6 @@ var config = {
         src: 'src/client/index.html'
     }
 };
-
-gulp.task('clean', function() {
-    // Nuke the whole dev and dist folders and its content
-    return gulp.src(['dev', 'dist'], { read: false })
-        .pipe(plugins.rimraf({ force: true }));
-});
 
 gulp.task('images', function() {
     return gulp.src(config.images.src)
@@ -107,7 +111,7 @@ gulp.task('livereload', function() {
     gulp.watch(['dev/**/*']).on('change', plugins.livereload.changed);
 });
 
-gulp.task('watch', ['serve', 'livereload'], function() {
+gulp.task('watchOld', ['serve', 'livereload'], function() {
     gulp.watch(config.images.src, ['images']);
     gulp.watch(config.css.src, ['css']);
     gulp.watch(config.html.src, ['html']);

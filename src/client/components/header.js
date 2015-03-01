@@ -1,12 +1,12 @@
-var React = require('libs').React;
-var Bootstrap = require('libs').Bootstrap;
+var React = require('../libs').React;
+var Bootstrap = require('../libs').Bootstrap;
 var Navbar = Bootstrap.Navbar;
 var Nav = Bootstrap.Nav;
 var NavItem = Bootstrap.NavItem;
 var DropdownButton = Bootstrap.DropdownButton;
 var MenuItem = Bootstrap.MenuItem;
 
-var Router = require('libs').Router;
+var Router = require('../libs').Router;
 var Link = Router.Link;
 
 module.exports = React.createClass({
