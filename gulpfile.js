@@ -10,10 +10,9 @@ var gulper = require('asset-gulper')({
     app: './src/client',
     main: 'app.jsx',
     vendor: ["jquery", "bootstrap", "react", 'react-router', 'react-bootstrap'],
-    outputDir: 'dev',
-    devServer: {
-        port: 8080
-    }
+    outputDir: 'public',
+    publicPath: '/',
+    port: 8080
 });
 gulper.defineTasks(gulp, ['clean', 'watch', 'compile']);
 
