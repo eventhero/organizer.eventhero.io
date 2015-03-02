@@ -6,8 +6,11 @@ var NavItem = Bootstrap.NavItem;
 var DropdownButton = Bootstrap.DropdownButton;
 var MenuItem = Bootstrap.MenuItem;
 
+
 var Router = require('react-router');
 var Link = Router.Link;
+var brandImage = require('./header/powered_by_brickwork.png');
+var css = require('./header/_header.scss');
 
 module.exports = React.createClass({
     mixins: [Router.State],
@@ -18,12 +21,14 @@ module.exports = React.createClass({
                     {/*!-- Brand and toggle get grouped for better mobile display --*/}
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span className="sr-only">Toggle Nav</span>
+                            <span className="sr-only">Toggle</span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link to="app" className="navbar-brand">Branding</Link>
+                        <Link to="app" className="navbar-brand">
+                            <img src={brandImage}/>
+                        </Link>
                     </div>
 
                     {/*!-- Collect the nav links, forms, and other content for toggling --*/}
