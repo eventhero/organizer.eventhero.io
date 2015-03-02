@@ -1,12 +1,12 @@
-var React = require('../libs').React;
-var Bootstrap = require('../libs').Bootstrap;
+var React = require('react');
+var Bootstrap = require('react-bootstrap');
 var Navbar = Bootstrap.Navbar;
 var Nav = Bootstrap.Nav;
 var NavItem = Bootstrap.NavItem;
 var DropdownButton = Bootstrap.DropdownButton;
 var MenuItem = Bootstrap.MenuItem;
 
-var Router = require('../libs').Router;
+var Router = require('react-router');
 var Link = Router.Link;
 
 module.exports = React.createClass({
@@ -18,12 +18,12 @@ module.exports = React.createClass({
                     {/*!-- Brand and toggle get grouped for better mobile display --*/}
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span className="sr-only">Toggle navigation</span>
+                            <span className="sr-only">Toggle Nav</span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                         </button>
-                        <Link to="app" className="navbar-brand">Brand</Link>
+                        <Link to="app" className="navbar-brand">Branding</Link>
                     </div>
 
                     {/*!-- Collect the nav links, forms, and other content for toggling --*/}
@@ -52,7 +52,7 @@ module.exports = React.createClass({
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
                                     <li>
-                                        <a href="#">Action</a>
+                                        <a href="#">Action 123</a>
                                     </li>
                                     <li>
                                         <a href="#">Another action</a>
@@ -71,36 +71,5 @@ module.exports = React.createClass({
                 </div>
             </nav>
         );
-        //<ul>
-        //    <li>
-        //        <Link to="app">Dashboard</Link>
-        //    </li>
-        //    <li>
-        //        <Link to="inbox">Inbox</Link>
-        //    </li>
-        //    <li>
-        //        <Link to="calendar">Calendar</Link>
-        //    </li>
-        //</ul>
-
-        //(<div className="row">
-        //    <div className="col-xs-12">
-        //        <nav className="navbar navbar-default" role="navigation">
-        //            <div className="navbar-header">
-        //                <a className="navbar-brand" href="#">
-        //                    <img src="images/components/header/powered_by_brickwork.png"/>
-        //                </a>
-        //            </div>
-        //            <ul className="nav navbar-nav">
-        //                <li data-match-route="/state1">
-        //                    <a ui-sref="state1">State 1</a>
-        //                </li>
-        //                <li data-match-route="/state2">
-        //                    <a ui-sref="state2">State 2</a>
-        //                </li>
-        //            </ul>
-        //        </nav>
-        //    </div>
-        //</div>);
-    }
+     }
 });

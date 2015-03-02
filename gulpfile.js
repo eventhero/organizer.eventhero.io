@@ -6,12 +6,12 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream');
 
 var gulper = require('asset-gulper')({
+    currentDir: __dirname,
     app: './src/client',
     main: 'app.jsx',
-    currentDir: __dirname,
+    vendor: ["jquery", "bootstrap", "react", 'react-router', 'react-bootstrap'],
     outputDir: 'dev',
     devServer: {
-        host: 'localhost',
         port: 8080
     }
 });

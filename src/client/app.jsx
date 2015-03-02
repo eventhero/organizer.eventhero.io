@@ -1,13 +1,6 @@
-var $ = require('./libs').$;
-
-
-var React = require('./libs').React;
+var React = require('react');
+var Router = require('react-router');
 var Header = require('./components/header');
-
-var Router = require('./libs').Router;
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
-var RouteHandler = Router.RouteHandler;
 
 var HelloMessage = React.createClass({
     render: function() {
@@ -17,19 +10,19 @@ var HelloMessage = React.createClass({
 
 var Dashboard = React.createClass({
     render: function() {
-        return <div>This is dashboard</div>;
+        return <div>This is dashboard Oh yeah</div>;
     }
 });
 
 var Inbox = React.createClass({
     render: function() {
-        return <div>This is inbox</div>;
+        return <div>This is inbox !!!!!1 </div>;
     }
 });
 
 var Calendar = React.createClass({
     render: function() {
-        return <div>This is calendar</div>;
+        return <div>This is calendar 123</div>;
     }
 });
 
@@ -46,7 +39,7 @@ var App = React.createClass({
                     </div>
                     <div className="row">
                         <div className="col-xs-12">
-                            <RouteHandler />
+                            <Router.RouteHandler />
                         </div>
                     </div>
                 </div>
@@ -56,11 +49,11 @@ var App = React.createClass({
 });
 
 var routes = (
-    <Route name="app" path="/" handler={App}>
-        <Route name="inbox" path="/inbox" handler={Inbox}/>
-        <Route name="calendar" path="/calendar" handler={Calendar}/>
-        <DefaultRoute handler={Dashboard}/>
-    </Route>
+    <Router.Route name="app" path="/" handler={App}>
+        <Router.Route name="inbox" path="/inbox" handler={Inbox}/>
+        <Router.Route name="calendar" path="/calendar" handler={Calendar}/>
+        <Router.DefaultRoute handler={Dashboard}/>
+    </Router.Route>
 );
 
 Router.run(routes, function(Handler) {
