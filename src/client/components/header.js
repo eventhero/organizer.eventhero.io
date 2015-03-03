@@ -21,7 +21,7 @@ module.exports = React.createClass({
                     {/*!-- Brand and toggle get grouped for better mobile display --*/}
                     <div className="navbar-header">
                         <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span className="sr-only">Toggle</span>
+                            <span className="sr-only">Toggle 123</span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>
                             <span className="icon-bar"></span>

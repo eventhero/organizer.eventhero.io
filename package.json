@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.1",
     "express": "~4.x",
     "gulp": "~3.8.8",
+    "gulp-util": "^3.0.4",
     "jquery": "^2.1.1",
     "react": "~0.12.1",
     "react-bootstrap": "~0.13.0",
